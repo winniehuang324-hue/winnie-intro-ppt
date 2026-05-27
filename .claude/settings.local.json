@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh --version)",
+      "Bash(winget install *)",
+      "Bash(gh auth *)",
+      "Bash(git config *)",
+      "Bash(winget *)",
+      "Bash(where gh *)",
+      "Read(//c/Program Files/GitHub CLI/**)",
+      "Bash(/c/Program Files/GitHub CLI/gh.exe *)",
+      "Bash(/c/Program Files/GitHub CLI/gh.exe auth *)",
+      "Bash(wrangler --version)",
+      "Bash(npx wrangler *)",
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(wrangler login *)",
+      "Bash(wrangler whoami *)",
+      "Bash(git --version)",
+      "Bash(gh repo *)",
+      "Bash(git init *)",
+      "Bash(cp tennis_rules.html tennis-rules-repo/index.html)",
+      "Bash(gh api *)",
+      "Bash(Start-Sleep -Seconds 60)",
+      "Bash(Select-String \"status|html_url\")",
+      "Bash(Copy-Item *)",
+      "Bash(mv winnie-intro.html index.html)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  }
+}

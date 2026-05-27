@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>网球基础规则教学</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+      background: #0f1923;
+      color: #f0f0f0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #1a472a 100%);
+      text-align: center;
+      padding: 60px 20px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='20' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='2'/%3E%3C/svg%3E") repeat;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #c8ff00;
+      color: #0f1923;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.15;
+      position: relative;
+    }
+    .hero h1 span { color: #c8ff00; }
+    .hero p {
+      margin-top: 14px;
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      position: relative;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 36px;
+      position: relative;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 28px; font-weight: 800; color: #c8ff00; }
+    .stat-label { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+    /* ── Nav tabs ── */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 28px 20px 0;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 8px 22px;
+      border-radius: 24px;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .tab:hover, .tab.active {
+      background: #c8ff00;
+      color: #0f1923;
+      border-color: #c8ff00;
+      font-weight: 700;
+    }
+
+    /* ── Section title ── */
+    .section { padding: 48px 20px; max-width: 1080px; margin: 0 auto; }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* ── Video grid ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: #1c2a35;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+
+    .card-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #111e28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .card-thumb .court-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.18;
+    }
+    .play-btn {
+      width: 52px;
+      height: 52px;
+      background: rgba(200,255,0,0.92);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      transition: transform .2s;
+    }
+    .card:hover .play-btn { transform: scale(1.1); }
+    .play-btn svg { margin-left: 4px; }
+    .card-level {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .level-beginner { background: #00b4d8; color: #fff; }
+    .level-intermediate { background: #f77f00; color: #fff; }
+    .level-advanced { background: #e63946; color: #fff; }
+
+    .card-duration {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 12px;
+      background: rgba(0,0,0,0.65);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .card-body { padding: 16px; }
+    .card-body h3 { font-size: 16px; font-weight: 700; line-height: 1.4; }
+    .card-body p { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; line-height: 1.6; }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .card-views { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .watch-btn {
+      font-size: 12px;
+      font-weight: 700;
+      color: #c8ff00;
+      background: rgba(200,255,0,0.1);
+      border: none;
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .watch-btn:hover { background: rgba(200,255,0,0.22); }
+
+    /* ── Rules quick-ref ── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .rule-card {
+      background: #1c2a35;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color .2s;
+    }
+    .rule-card:hover { border-color: #c8ff00; }
+    .rule-icon { font-size: 28px; margin-bottom: 10px; }
+    .rule-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .rule-card p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+    /* ── Scoring banner ── */
+    .scoring-banner {
+      background: linear-gradient(135deg, #1a472a, #0d2b1a);
+      border-radius: 14px;
+      padding: 32px;
+      border: 1px solid rgba(200,255,0,0.2);
+      margin-bottom: 0;
+    }
+    .scoring-banner h3 { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+    .score-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .score-chip {
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 10px 18px;
+      text-align: center;
+      min-width: 90px;
+    }
+    .score-chip .pts { font-size: 22px; font-weight: 800; color: #c8ff00; }
+    .score-chip .label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.25);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ── Emoji court SVG fallback colors ── */
+    .thumb-green { background: #1a472a; }
+    .thumb-blue  { background: #0d3b5e; }
+    .thumb-red   { background: #5c1a1a; }
+
+    .emoji-big { font-size: 56px; position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">🎾 网球学院</div>
+  <h1>掌握网球<span>基础规则</span></h1>
+  <p>从零开始，系统学习网球竞赛规则与技巧，快速上手</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">教学视频</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">难度等级</div></div>
+    <div class="stat"><div class="stat-num">45+</div><div class="stat-label">分钟内容</div></div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active">全部</button>
+  <button class="tab">规则基础</button>
+  <button class="tab">计分系统</button>
+  <button class="tab">发球规则</button>
+  <button class="tab">界外判定</button>
+</div>
+
+<!-- Video Section -->
+<div class="section">
+  <div class="section-title">📺 精选教学视频</div>
+  <div class="video-grid">
+
+    <!-- Card 1 -->
+    <div class="card">
+      <div class="card-thumb thumb-green">
+        <div class="card-level level-beginner">入门</div>
+        <div class="emoji-big">🎾</div>
+        <div class="play-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0f1923"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="card-duration">07:23</div>
+      </div>
+      <div class="card-body">
+        <h3>网球规则完全入门指南</h3>
+        <p>了解网球运动的基本构成、场地划分及比赛流程，零基础快速上手。</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-views">👁 12,840 次观看</span>
+        <button class="watch-btn">立即观看</button>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <div class="card-thumb thumb-blue">
+        <div class="card-level level-beginner">入门</div>
+        <div class="emoji-big">📊</div>
+        <div class="play-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0f1923"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="card-duration">09:11</div>
+      </div>
+      <div class="card-body">
+        <h3>计分系统详解：Love、15、30、40</h3>
+        <p>深入讲解网球独特的计分制度，包括平分（Deuce）与优势（Advantage）规则。</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-views">👁 9,520 次观看</span>
+        <button class="watch-btn">立即观看</button>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <div class="card-thumb thumb-red">
+        <div class="card-level level-intermediate">进阶</div>
+        <div class="emoji-big">🏸</div>
+        <div class="play-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0f1923"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="card-duration">08:45</div>
+      </div>
+      <div class="card-body">
+        <h3>发球规则：第一发与第二发</h3>
+        <p>掌握发球区域、发球失误（Fault）与双误（Double Fault）的判定标准。</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-views">👁 7,230 次观看</span>
+        <button class="watch-btn">立即观看</button>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card">
+      <div class="card-thumb thumb-green">
+        <div class="card-level level-intermediate">进阶</div>
+        <div class="emoji-big">📐</div>
+        <div class="play-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0f1923"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="card-duration">06:58</div>
+      </div>
+      <div class="card-body">
+        <h3>界外与界内判定规则</h3>
+        <p>详细解析底线、边线的判定方式，以及压线球（Line Ball）的处理规则。</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-views">👁 6,110 次观看</span>
+        <button class="watch-btn">立即观看</button>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card">
+      <div class="card-thumb thumb-blue">
+        <div class="card-level level-intermediate">进阶</div>
+        <div class="emoji-big">🔄</div>
+        <div class="play-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0f1923"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="card-duration">05:30</div>
+      </div>
+      <div class="card-body">
+        <h3>换边规则与休息时间</h3>
+        <p>了解何时换边、允许的休息时长，以及雨天或受伤暂停的处理方式。</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-views">👁 4,870 次观看</span>
+        <button class="watch-btn">立即观看</button>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card">
+      <div class="card-thumb thumb-red">
+        <div class="card-level level-advanced">高级</div>
+        <div class="emoji-big">🏆</div>
+        <div class="play-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0f1923"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="card-duration">10:02</div>
+      </div>
+      <div class="card-body">
+        <h3>抢七局（Tiebreak）完整规则</h3>
+        <p>专项讲解抢七局的计分方式、换发球顺序，以及大满贯第五盘超级抢七规则。</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-views">👁 8,990 次观看</span>
+        <button class="watch-btn">立即观看</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Quick Rules -->
+<div class="section" style="padding-top: 0;">
+  <div class="section-title">📋 规则速查</div>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-icon">🎯</div>
+      <h4>得分方式</h4>
+      <p>对手未能在规定次数内将球打回场内，或击球出界、入网即得分。</p>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🔢</div>
+      <h4>局与盘</h4>
+      <p>先赢 4 分得 1 局，先赢 6 局（领先 2 局）得 1 盘，通常三盘两胜或五盘三胜。</p>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">⚡</div>
+      <h4>Let 重发球</html4>
+      <p>发球触网后落入正确发球区，判为 Let，本次发球重来，不计失误。</p>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🚫</div>
+      <h4>脚误（Foot Fault）</h4>
+      <p>发球时脚踩或越过底线及中线延长线，判为脚误，等同发球失误。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Scoring Banner -->
+<div class="section" style="padding-top: 0;">
+  <div class="section-title">🔢 计分系统一览</div>
+  <div class="scoring-banner">
+    <h3>单局得分顺序</h3>
+    <div class="score-row">
+      <div class="score-chip"><div class="pts">0</div><div class="label">Love（零分）</div></div>
+      <div class="score-chip"><div class="pts">15</div><div class="label">第一分</div></div>
+      <div class="score-chip"><div class="pts">30</div><div class="label">第二分</div></div>
+      <div class="score-chip"><div class="pts">40</div><div class="label">第三分</div></div>
+      <div class="score-chip"><div class="pts">Game</div><div class="label">赢得此局</div></div>
+      <div class="score-chip"><div class="pts">Deuce</div><div class="label">平分（40:40）</div></div>
+      <div class="score-chip"><div class="pts">Adv.</div><div class="label">优势分</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2026 网球学院 · Demo 演示页面 · 为 Winnie 定制
+</footer>
+
+</body>
+</html>
